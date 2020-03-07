@@ -15,7 +15,7 @@ class TestBandG(unittest.TestCase):
 
 
     def test_APB_exists(self):
-        self.assertTrue("APB" in self.nmea_statistic)
+        self.assertTrue("APB" in self.nmea_statistic, "APB sentence not avaiable")
 
     def test_GBS_exists(self):
         self.assertTrue("GBS" in self.nmea_statistic)

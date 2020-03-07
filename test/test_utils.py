@@ -22,6 +22,15 @@ class Nmea:
             starttime = time.time()
             messtime = time.time()
             while (messtime - starttime) < duration:
+
+                messtime = time.time()
+
+                # skip if no data is available
+                if ser.inWaiting() <= 0:
+                    time.sleep(0.1)
+                    continue
+
+
                 # Get next NMEA sentence from UPD port
                 message = ser.readline().decode('ascii', errors='replace')
                 messtime = time.time()
