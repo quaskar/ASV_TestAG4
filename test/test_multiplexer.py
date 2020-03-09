@@ -64,7 +64,7 @@ class TestMultiplexer(unittest.TestCase):
         """
         super(TestMultiplexer, self).tearDownClass()
 
-        os.system('taskkill /IM MPXConfig3.exe 2> nul')
+        os.system('taskkill /IM MPXConfig3.exe > nul')
         time.sleep(3)
 
     #@unittest.skip("File name issue")
