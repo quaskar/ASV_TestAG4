@@ -1,6 +1,9 @@
 import unittest
 import HtmlTestRunner
 import os
+import argparse
+import shutil
+from datetime import datetime
 from test_gps import TestGps
 from test_BandG import TestBandG
 from test_weatherbox import TestWeatherbox
@@ -9,36 +12,40 @@ from test_expedition import TestExpedition
 from test_multiplexer import TestMultiplexer
 
 
-class TestAG4(unittest.TestCase):
-
-    def test_selftest(self):
-        self.assertTrue(True)
-
-    @staticmethod
-    def run_suite():
-        suite = unittest.TestSuite()
-        result = unittest.TestResult()
-
-        suite.addTest(unittest.makeSuite(TestAG4))
-        # suite.addTest(unittest.makeSuite(TestGps))
-        suite.addTest(unittest.makeSuite(TestBandG))
-        # suite.addTest(unittest.makeSuite(TestWeatherbox))
-        # suite.addTest(unittest.makeSuite(TestAis))
-        suite.addTest(unittest.makeSuite(TestExpedition))
-        suite.addTest(unittest.makeSuite(TestMultiplexer))
-
-
-        #runner = unittest.TextTestRunner()
-        runner = HtmlTestRunner.HTMLTestRunner(output='../run',combine_reports=True)
-        print(runner.run(suite))
-
-
 if __name__ == '__main__':
 
-    os.system('rm ../run/*')
+    # configure command line options
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--testauto", help="Apply all automatic tests", action="store_true")
+    parser.add_argument("--testmultiplexer", help="Apply Multiplier tests only", action="store_true")
+    parser.add_argument("--testgps", help="Apply GPS tests only", action="store_true")
+    parser.add_argument("--testbandg", help="Apply B&G tests only", action="store_true")
+    parser.add_argument("--testweatherbox", help="Apply Weatherbox tests only", action="store_true")
+    parser.add_argument("--testais", help="Apply AIS tests only", action="store_true")
+    parser.add_argument("--testexpedition", help="Apply Expedition tests only", action="store_true")
+    args = parser.parse_args()
 
-    TestAG4.run_suite()
+    # configure test suite
+    suite = unittest.TestSuite()
+    result = unittest.TestResult()
+    if args.testauto:
+        pass
+    if args.testmultiplexer:
+        suite.addTest(unittest.makeSuite(TestMultiplexer))
+    if args.testgps:
+        suite.addTest(unittest.makeSuite(TestGps))
+    if args.testbandg:
+        suite.addTest(unittest.makeSuite(TestBandG))
+    if args.testweatherbox:
+        suite.addTest(unittest.makeSuite(TestWeatherbox))
+    if args.testais:
+        suite.addTest(unittest.makeSuite(TestAis))
+    if args.testexpedition:
+        suite.addTest(unittest.makeSuite(TestExpedition))
 
-    os.system('zip ../logs/ASV_TestAG4_Testrun_`date +%Y%m%d-%H%M%S`.zip ../run/*')
-
-    #os.system('rm ../run/*')
+    # run test suite
+    os.system(r'del /S /Q ..\run\* > nul')
+    runner = HtmlTestRunner.HTMLTestRunner(output='../run', combine_reports=True)
+    print(runner.run(suite))
+    shutil.make_archive('..\logs\ASV_TestAG4_Testrun_' + datetime.now().strftime("%Y%m%d_%H%M%S") + r'.zip', 'zip', r'..\run')
+    #os.system(r'del /S /Q ..\run\*')
