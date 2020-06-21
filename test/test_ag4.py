@@ -51,4 +51,4 @@ if __name__ == '__main__':
     shutil.make_archive('..\logs\ASV_TestAG4_Testrun_' + datetime.now().strftime("%Y%m%d_%H%M%S"), 'zip', r'..\run')
     #os.system(r'del /S /Q ..\run\*')
 
-    os.system(r'"C:\Program Files\Mozilla Firefox\firefox.exe" file:///C:/Users/Bordcomputer/Desktop/ASV_TestAG4/run/TestReport.html')
+    os.system(r'"C:\Program Files\Mozilla Firefox\firefox.exe" file:///C:/Users/Bordcomputer/ASV_TestAG4/run/TestReport.html')

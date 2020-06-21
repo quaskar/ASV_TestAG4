@@ -71,7 +71,7 @@ class TestMultiplexer(unittest.TestCase):
         pyautogui.click()
         time.sleep(1)
 
-        pyautogui.write(r'C:\Users\Bordcomputer\Desktop\ASV_TestAG4\run\multiplexer.ini')
+        pyautogui.write(r'C:\Users\Bordcomputer\ASV_TestAG4\run\multiplexer.ini')
         pyautogui.press('enter')
         time.sleep(1)
 
