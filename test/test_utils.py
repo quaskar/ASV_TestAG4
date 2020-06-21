@@ -2,7 +2,17 @@ import socket
 import time
 import pynmea2
 import serial as serial
+import pyautogui
+#import pywin32
+import os
+import time
+from PIL import Image
+from PIL import ImageChops
+import subprocess
+import sys
 
+from pywinauto import Application, win32defines
+from pywinauto.win32functions import ShowWindow, SetFocus
 
 class Nmea:
 
@@ -69,6 +79,7 @@ class Nmea:
         NmeaSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         NmeaSocket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         NmeaSocket.bind(('', port))
+        message, address = NmeaSocket.recvfrom(8192)
 
         # Record NMEA data via UPD for 10sec to gather statistic data
         starttime = time.time()
@@ -77,12 +88,17 @@ class Nmea:
             # Get next NMEA sentence from UPD port
             message, address = NmeaSocket.recvfrom(8192)
             messtime = time.time()
+            message = message.decode("ascii")
+            message = '$' + message.split('$')[-1]
 
             # Decode NMEA sentence
             try:
-                nmea_sentence = pynmea2.parse(message.decode("ascii"))
-            except pynmea2:
-                print("Failure in decoding NMEA sentence")
+                nmea_sentence = pynmea2.parse(message)
+            except pynmea2.nmea.ChecksumError as error:
+                print("* %0004.2f \t * %s* ^⁻-- Failure Checksum" % ((messtime - starttime), message))
+                continue
+            except pynmea2.nmea.ParseError as error:
+                print("* %0004.2f \t * %s* ^--- Failure Parsing" % ((messtime - starttime),  message))
                 continue
 
             # Push NMEA sentence to statistic data struct

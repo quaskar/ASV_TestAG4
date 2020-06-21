@@ -23,20 +23,21 @@ if __name__ == '__main__':
     parser.add_argument("--testweatherbox", help="Apply Weatherbox tests only", action="store_true")
     parser.add_argument("--testais", help="Apply AIS tests only", action="store_true")
     parser.add_argument("--testexpedition", help="Apply Expedition tests only", action="store_true")
+
     args = parser.parse_args()
 
     # configure test suite
     suite = unittest.TestSuite()
     result = unittest.TestResult()
-    if args.testauto:
-        pass
-    if args.testmultiplexer:
+    #if args.testauto:
+    #    pass
+    if args.testmultiplexer or args.testauto:
         suite.addTest(unittest.makeSuite(TestMultiplexer))
-    if args.testgps:
+    if args.testgps or args.testauto:
         suite.addTest(unittest.makeSuite(TestGps))
-    if args.testbandg:
+    if args.testbandg or args.testauto:
         suite.addTest(unittest.makeSuite(TestBandG))
-    if args.testweatherbox:
+    if args.testweatherbox or args.testauto:
         suite.addTest(unittest.makeSuite(TestWeatherbox))
     if args.testais:
         suite.addTest(unittest.makeSuite(TestAis))
@@ -45,7 +46,9 @@ if __name__ == '__main__':
 
     # run test suite
     os.system(r'del /S /Q ..\run\* > nul')
-    runner = HtmlTestRunner.HTMLTestRunner(output='../run', combine_reports=True)
+    runner = HtmlTestRunner.HTMLTestRunner(output='../run', combine_reports=True, report_name="TestReport", add_timestamp=False)
     print(runner.run(suite))
-    shutil.make_archive('..\logs\ASV_TestAG4_Testrun_' + datetime.now().strftime("%Y%m%d_%H%M%S") + r'.zip', 'zip', r'..\run')
+    shutil.make_archive('..\logs\ASV_TestAG4_Testrun_' + datetime.now().strftime("%Y%m%d_%H%M%S"), 'zip', r'..\run')
     #os.system(r'del /S /Q ..\run\*')
+
+    os.system(r'"C:\Program Files\Mozilla Firefox\firefox.exe" file:///C:/Users/Bordcomputer/Desktop/ASV_TestAG4/run/TestReport.html')

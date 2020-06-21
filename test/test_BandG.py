@@ -11,29 +11,56 @@ class TestBandG(unittest.TestCase):
         """
         super(TestBandG, self).setUpClass()
         self.nmea_statistic = {}
-        self.nmea_statistic = test_utils.Nmea.serial_stat(10)
+        self.nmea_statistic = test_utils.Nmea.udp_stat(10)
 
 
-    def test_APB_exists(self):
-        self.assertTrue("APB" in self.nmea_statistic, "APB sentence not avaiable")
+    def test_DBT(self):
+        self.assertTrue("DBT" in self.nmea_statistic)
 
-    def test_GBS_exists(self):
-        self.assertTrue("GBS" in self.nmea_statistic)
+        self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["DBT"]), 2.2)
+        self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["DBT"]), 1.8)
 
-    def test_DTM_exists(self):
-        self.assertTrue("DTM" in self.nmea_statistic)
+    def test_MTA_exists(self):
+        self.assertTrue("MTA" in self.nmea_statistic)
 
-    def test_GLL_exists(self):
-        self.assertTrue("GLL" in self.nmea_statistic)
+        self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["MTA"]), 2.2)
+        self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["MTA"]), 1.8)
 
-    def test_RMB_exists(self):
-        self.assertTrue("RMB" in self.nmea_statistic)
+    def test_MTW_exists(self):
+        self.assertTrue("MTW" in self.nmea_statistic)
 
-    def test_VTG_exists(self):
-        self.assertTrue("VTG" in self.nmea_statistic)
+        self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["MTW"]), 2.2)
+        self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["MTW"]), 1.8)
 
-    def test_ZDA_exists(self):
-        self.assertTrue("ZDA" in self.nmea_statistic)
+    def test_MWD_exists(self):
+        self.assertTrue("MWD" in self.nmea_statistic)
+
+        self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["MWD"]), 2.2)
+        self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["MWD"]), 1.8)
+
+    def test_VHW_exists(self):
+        self.assertTrue("VHW" in self.nmea_statistic)
+
+        self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["VHW"]), 2.2)
+        self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["VHW"]), 1.8)
+
+    def test_VLW_exists(self):
+        self.assertTrue("VLW" in self.nmea_statistic)
+
+        self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["VLW"]), 2.2)
+        self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["VLW"]), 1.8)
+
+    def test_VWR_exists(self):
+        self.assertTrue("VWR" in self.nmea_statistic)
+
+        self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["VWR"]), 2.2)
+        self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["VWR"]), 0.8)
+
+    def test_VWT_exists(self):
+        self.assertTrue("VWT" in self.nmea_statistic)
+
+        self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["VWT"]), 2.2)
+        self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["VWT"]), 0.8)
 
 
 if __name__ == '__main__':
