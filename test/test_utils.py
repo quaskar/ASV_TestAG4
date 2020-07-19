@@ -17,11 +17,16 @@ from pywinauto.win32functions import ShowWindow, SetFocus
 class Nmea:
 
     @staticmethod
-    def serial_stat(duration=10, device='/dev/ttyUSB0', baudrate=4800):
+    def serial_stat(duration=10, device='/dev/ttyUSB0', baudrate=4800, log=""):
         """
         Setup serial port and record 10 seconds of NMEA data
         """
         nmea_statistic = {}
+
+        # Open log file if needed
+        if log != "":
+            LogFile = open(log, 'w')
+            LogFile.write("Log for Duration " + str(duration) + "sec on Port " + str(device) + " with " + str(baudrate) + " baud\n")
 
         with serial.Serial(device, baudrate=baudrate, timeout=1) as ser:
 
@@ -61,14 +66,18 @@ class Nmea:
                     nmea_statistic[nmea_sentence.sentence_type] = []
                 nmea_statistic[nmea_sentence.sentence_type].append(((messtime - starttime), nmea_sentence))
 
-                print("| %0004.2f \t | %s \t | %s" % ((messtime - starttime), device, nmea_sentence))
+                if log != "":
+                    LogFile.write("|  %004.2f \t | %s \t | %s \n" % ((messtime - starttime), device, nmea_sentence))
 
+        # Close log file
+        if log != "":
+            LogFile.close()
 
         return nmea_statistic
 
 
     @staticmethod
-    def udp_stat(duration=10, port=10110):
+    def udp_stat(duration=10, port=10110, log=""):
         """
         Setup UDP socket and record 10 seconds of NMEA data
         """
@@ -80,6 +89,11 @@ class Nmea:
         NmeaSocket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         NmeaSocket.bind(('', port))
         message, address = NmeaSocket.recvfrom(8192)
+
+        # Open log file if needed
+        if log!="":
+            LogFile = open(log, 'w')
+            LogFile.write("Log for Duration " + str(duration) + "sec on Port " + str(port) + "\n")
 
         # Record NMEA data via UPD for 10sec to gather statistic data
         starttime = time.time()
@@ -106,10 +120,15 @@ class Nmea:
                 nmea_statistic[nmea_sentence.sentence_type] = []
             nmea_statistic[nmea_sentence.sentence_type].append(((messtime - starttime), nmea_sentence))
 
-            print("| %4.2f \t | %s \t | %s" % ((messtime - starttime), address, nmea_sentence))
+            if log != "":
+                LogFile.write("|  %004.2f \t | %s \t | %s \n" % ((messtime - starttime), address, nmea_sentence))
 
         # Close UDP socket
         NmeaSocket.close()
+
+        # Close log file
+        if log != "":
+            LogFile.close()
 
         return nmea_statistic
 

@@ -11,7 +11,10 @@ class TestBandG(unittest.TestCase):
         """
         super(TestBandG, self).setUpClass()
         self.nmea_statistic = {}
-        self.nmea_statistic = test_utils.Nmea.udp_stat(10)
+        self.nmea_statistic = test_utils.Nmea.udp_stat(duration=10, log="../run/NMEA-Log-B&G-MultiPlexer.log")
+
+        #self.nmea_statistic = {}
+        #self.nmea_statistic = test_utils.Nmea.serial_stat(duration=10, device='COM1', baudrate=38400, log="../run/NMEA-Log-B&G-AIS.log")
 
 
     def test_DBT(self):

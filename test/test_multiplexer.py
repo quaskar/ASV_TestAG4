@@ -4,6 +4,7 @@ import os
 import time
 from PIL import Image
 from PIL import ImageChops
+import test_utils
 
 
 class TestMultiplexer(unittest.TestCase):
@@ -14,6 +15,9 @@ class TestMultiplexer(unittest.TestCase):
         Setup UDP socket and record 10 seconds of NMEA data
         """
         super(TestMultiplexer, self).setUpClass()
+
+        self.nmea_statistic = {}
+        self.nmea_statistic = test_utils.Nmea.udp_stat(duration=60, log="../run/NMEA-Log-Multiplexer.log")
 
         # start config tool via autohotkey script
         os.system('start "Test" "../autohotkey/start_MPXConfig3.ahk"')
@@ -71,7 +75,7 @@ class TestMultiplexer(unittest.TestCase):
         pyautogui.click()
         time.sleep(1)
 
-        pyautogui.write(r'C:\Users\Bordcomputer\ASV_TestAG4\run\multiplexer.ini')
+        pyautogui.write(r'C:\Users\Bordcomputer\OneDrive\ASV_TestAG4\run\multiplexer.ini')
         pyautogui.press('enter')
         time.sleep(1)
 

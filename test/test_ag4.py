@@ -39,7 +39,7 @@ if __name__ == '__main__':
         suite.addTest(unittest.makeSuite(TestBandG))
     if args.testweatherbox or args.testauto:
         suite.addTest(unittest.makeSuite(TestWeatherbox))
-    if args.testais:
+    if args.testais or args.testauto:
         suite.addTest(unittest.makeSuite(TestAis))
     if args.testexpedition:
         suite.addTest(unittest.makeSuite(TestExpedition))
@@ -51,4 +51,4 @@ if __name__ == '__main__':
     shutil.make_archive('..\logs\ASV_TestAG4_Testrun_' + datetime.now().strftime("%Y%m%d_%H%M%S"), 'zip', r'..\run')
     #os.system(r'del /S /Q ..\run\*')
 
-    os.system(r'"C:\Program Files\Mozilla Firefox\firefox.exe" file:///C:/Users/Bordcomputer/ASV_TestAG4/run/TestReport.html')
+    os.system(r'"C:\Program Files\Mozilla Firefox\firefox.exe" file:///C:/Users/Bordcomputer/OneDrive/ASV_TestAG4/run/TestReport.html')
