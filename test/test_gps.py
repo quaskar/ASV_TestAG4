@@ -11,9 +11,9 @@ class TestGps(unittest.TestCase):
         """
         super(TestGps, self).setUpClass()
         self.nmea_statistic = {}
-        self.nmea_statistic = test_utils.Nmea.udp_stat(10)
+        self.nmea_statistic = test_utils.Nmea.udp_stat(duration=10, log="../run/NMEA-Log-GPS-MultiPlexer.log")
 
-
+    @unittest.skip
     def test_APB_exists(self):
         self.assertTrue("APB" in self.nmea_statistic)
 
@@ -35,6 +35,7 @@ class TestGps(unittest.TestCase):
         self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["GLL"]), 1.2)
         self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["GLL"]), 0.8)
 
+    @unittest.skip
     def test_RMB_exists(self):
         self.assertTrue("RMB" in self.nmea_statistic)
         self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["RMB"]), 1.2)

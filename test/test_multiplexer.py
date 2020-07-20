@@ -24,7 +24,7 @@ class TestMultiplexer(unittest.TestCase):
         time.sleep(3)
 
         # grab of complete screen
-        pyautogui.screenshot('../run/multiplexer-generic.png')
+        #pyautogui.screenshot('../run/multiplexer-generic.png')
 
         # grab application window
         pyautogui.screenshot('../run/multiplexer.png', region=(0, 0, 848, 575))

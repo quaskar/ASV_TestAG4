@@ -18,7 +18,10 @@ class TestWeatherbox(unittest.TestCase):
         time.sleep(3)
 
         # grab of complete screen
-        pyautogui.screenshot('../run/weatherbox-generic.png')
+        #pyautogui.screenshot('../run/weatherbox-generic.png')
+
+        # grab application window
+        pyautogui.screenshot('../run/waetherbox.png', region=(0, 0, 942, 768))
 
 
     @classmethod

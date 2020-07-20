@@ -23,12 +23,6 @@ class TestBandG(unittest.TestCase):
         self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["DBT"]), 2.2)
         self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["DBT"]), 1.8)
 
-    def test_MTA_exists(self):
-        self.assertTrue("MTA" in self.nmea_statistic)
-
-        self.assertLess(test_utils.Nmea.max_stat(self.nmea_statistic["MTA"]), 2.2)
-        self.assertGreater(test_utils.Nmea.min_stat(self.nmea_statistic["MTA"]), 1.8)
-
     def test_MTW_exists(self):
         self.assertTrue("MTW" in self.nmea_statistic)
 
